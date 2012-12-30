@@ -73,7 +73,7 @@ class LPD6803Driver implements DriverInterface
             throw new \Exception('Cannot open socket to null device');
         }
 
-        if (false === $this->socket = fopen($this->device, 'w')) {
+        if (false === $this->socket = fopen($this->device, 'wb')) {
             throw new \Exception('Could not open socket to device: ' . $this->device);
         }
 
