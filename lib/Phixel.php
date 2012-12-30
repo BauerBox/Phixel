@@ -68,9 +68,11 @@ class Phixel
             0x888800,
             0x880088,
             0x008888,
+            0x888888,
             0xffff00,
             0xff00ff,
-            0x00ffff
+            0x00ffff,
+            0xffffff
         );
 
         $max = $this->driver->getPixelCount();
@@ -81,12 +83,13 @@ class Phixel
                 $pixel->setColor($color);
                 $this->driver->writePixelStream($stream)->flush();
             }
-
+            /*
             for ($i = 0; $i < $max; ++$i) {
                 $pixel = $stream->getPixel($i);
                 $pixel->setColor(0x000000);
                 $this->driver->writePixelStream($stream)->flush();
             }
+            */
         }
     }
 
