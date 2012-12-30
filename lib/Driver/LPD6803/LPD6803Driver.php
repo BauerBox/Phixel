@@ -134,7 +134,7 @@ class LPD6803Driver implements DriverInterface
     {
         Debug::log('Checking device: ' . $this->device);
 
-        if (false === is_file($this->device)) {
+        if (false === file_exists($this->device)) {
             $this->loadKernelModule();
         }
 
