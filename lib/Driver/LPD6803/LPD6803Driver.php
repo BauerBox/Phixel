@@ -159,7 +159,6 @@ class LPD6803Driver implements DriverInterface
             throw new \Exception(
                 'An unknown error occurred while attempting to load the SPI kernel module',
                 null,
-                null,
                 $e
             );
         }
