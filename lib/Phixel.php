@@ -74,14 +74,12 @@ class Phixel
                 $pixel = $stream->getPixel($i);
                 $pixel->setColor($color);
                 $this->driver->writePixelStream($stream)->flush();
-                usleep(100);
             }
 
             for ($i = 0; $i < $max; ++$i) {
                 $pixel = $stream->getPixel($i);
                 $pixel->setColor(0x000000);
                 $this->driver->writePixelStream($stream)->flush();
-                usleep(100);
             }
         }
     }
