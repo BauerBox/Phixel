@@ -132,6 +132,8 @@ class LPD6803Driver implements DriverInterface
 
     protected function checkDevice()
     {
+        Debug::log('Checking device: ' . $this->device);
+
         if (false === is_file($this->device)) {
             $this->loadKernelModule();
         }
@@ -145,6 +147,8 @@ class LPD6803Driver implements DriverInterface
 
     protected function loadKernelModule()
     {
+        Debug::log('Loading kernel module');
+
         try {
             $out = shell_exec('gpio load spi > /dev/null 2> /dev/null; echo $?');
 
