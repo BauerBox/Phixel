@@ -54,6 +54,38 @@ class Phixel
         $this->driver->writePixelStream(new PixelStream($this->driver->getPixelCount(), $color))->flush();
     }
 
+    public function chase()
+    {
+        $stream = new PixelStream($this->driver->getPixelCount(), 0x000000);
+
+        $colors = array(
+            0x880000,
+            0x008800,
+            0x000088,
+            0xff0000,
+            0x00ff00,
+            0x0000ff
+        );
+
+        $max = $this->driver->getPixelCount();
+
+        foreach ($colors as $color) {
+            for ($i = 0; $i < $max; ++$i) {
+                $pixel = $stream->getPixel($i);
+                $pixel->setColor($color);
+                $this->driver->writePixelStream($stream)->flush();
+                usleep(100);
+            }
+
+            for ($i = 0; $i < $max; ++$i) {
+                $pixel = $stream->getPixel($i);
+                $pixel->setColor(0x000000);
+                $this->driver->writePixelStream($stream)->flush();
+                usleep(100);
+            }
+        }
+    }
+
     public function getPixelCount()
     {
         return $this->driver->getPixelCount();
