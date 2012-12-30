@@ -150,9 +150,9 @@ class LPD6803Driver implements DriverInterface
         Debug::log('Loading kernel module');
 
         try {
-            $out = shell_exec('gpio load spi > /dev/null 2> /dev/null; echo $?');
+            shell_exec('gpio load spi > /dev/null 2> /dev/null');
 
-            if ($out != '0') {
+            if (false === file_exists($this->device)) {
                 throw new \Exception('SPI device kernel module could not be loaded');
             }
         } catch (\Exception $e) {
