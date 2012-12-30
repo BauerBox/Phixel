@@ -18,8 +18,9 @@ $pixel = $phixel->getNewPixel();
 for ($red = 0x00; $red < 0xff; $red += 8) {
     for ($green = 0x00; $green < 0xff; $green += 8) {
         for ($blue = 0x00; $blue < 0xff; $blue += 8) {
+            \BauerBox\Phixel\Debug\Debug::log("Filling with RGB: ({$red},{$green},{$blue})");
             $phixel->fill($pixel->setColorRGB($red, $green, $blue)->getColor());
-            usleep(5000);
+            usleep(1000000 / 30);
         }
     }
 }
