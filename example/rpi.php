@@ -9,7 +9,7 @@ Phixel::installAutloader();
 Phixel::setMaxBrightness(0.5);
 Phixel::enableDebugOutput();
 
-$phixel = new Phixel(new LPD6803Driver(null, 156));
+$phixel = new Phixel(new LPD6803Driver('/dev/spidev0.0', 156));
 
 $phixel->allOff();
 
