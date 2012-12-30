@@ -64,7 +64,13 @@ class Phixel
             0x000088,
             0xff0000,
             0x00ff00,
-            0x0000ff
+            0x0000ff,
+            0x888800,
+            0x880088,
+            0x008888,
+            0xffff00,
+            0xff00ff,
+            0x00ffff
         );
 
         $max = $this->driver->getPixelCount();
