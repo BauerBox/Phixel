@@ -179,6 +179,8 @@ class LPD6803Driver implements DriverInterface
     {
         $this->reset = $this->pack32(0x00);
 
+        $this->checkDevice();
+
         $this->writeReset();
     }
 }
