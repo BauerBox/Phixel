@@ -43,7 +43,7 @@ class Bar extends AbstractObject
             }
         }
 
-        array_unshift($this->position, $this->tail);
+        array_unshift($this->tail, $this->position);
 
         if ($this->direction > 0) {
             $this->position = $this->nextPixel($this->position);
