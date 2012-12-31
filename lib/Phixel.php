@@ -38,6 +38,7 @@ class Phixel
     public function allOn()
     {
         $this->driver->writePixelStream(new PixelStream($this->driver->getPixelCount(), 0xffffff))->flush();
+        usleep(100);
 
         return $this;
     }
@@ -45,6 +46,7 @@ class Phixel
     public function allOff()
     {
         $this->driver->writePixelStream(new PixelStream($this->driver->getPixelCount(), 0x000000))->flush();
+        usleep(100);
 
         return $this;
     }
@@ -52,45 +54,30 @@ class Phixel
     public function fill($color = 0xffffff)
     {
         $this->driver->writePixelStream(new PixelStream($this->driver->getPixelCount(), $color))->flush();
+        usleep(100);
+
+        return $this;
     }
 
-    public function chase()
+    public function chase($color = 0xffffff)
     {
         $stream = new PixelStream($this->driver->getPixelCount(), 0x000000);
 
-        $colors = array(
-            0x880000,
-            0x008800,
-            0x000088,
-            0xff0000,
-            0x00ff00,
-            0x0000ff,
-            0x888800,
-            0x880088,
-            0x008888,
-            0x888888,
-            0xffff00,
-            0xff00ff,
-            0x00ffff,
-            0xffffff
-        );
-
-        $max = $this->driver->getPixelCount();
-
-        foreach ($colors as $color) {
-            for ($i = 0; $i < $max; ++$i) {
-                $pixel = $stream->getPixel($i);
-                $pixel->setColor($color);
-                $this->driver->writePixelStream($stream)->flush();
-            }
-            /*
-            for ($i = 0; $i < $max; ++$i) {
-                $pixel = $stream->getPixel($i);
-                $pixel->setColor(0x000000);
-                $this->driver->writePixelStream($stream)->flush();
-            }
-            */
+        for ($i = 0; $i < $max; ++$i) {
+            $pixel = $stream->getPixel($i);
+            $pixel->setColor($color);
+            $this->driver->writePixelStream($stream)->flush();
         }
+    }
+
+    /**
+     * Gets the driver instance
+     *
+     * @return \BauerBox\Phixel\Driver\DriverInterface
+     */
+    public function getDriver()
+    {
+        return $this->driver;
     }
 
     public function getPixelCount()
@@ -98,6 +85,12 @@ class Phixel
         return $this->driver->getPixelCount();
     }
 
+    /**
+     *
+     * @param int $color
+     * @param float $brightness
+     * @return \BauerBox\Phixel\Pixel\Pixel
+     */
     public function getNewPixel($color = 0xffffff, $brightness = 1.0)
     {
         return new Pixel($color, $brightness);
