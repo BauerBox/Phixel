@@ -45,6 +45,8 @@ class FrameBuffer
             throw new \Exception('Can not get pixel while not in loop');
         }
 
+        $pixel = (int) $pixel;
+
         if (false === array_key_exists($this->currentObject, $this->buffer[$pixel]['pixels'])) {
             $this->buffer[$pixel]['pixels'][$this->currentObject] = $this->phixel->getNewPixel(0x000000);
         }
