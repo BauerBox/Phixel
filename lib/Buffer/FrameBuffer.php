@@ -28,7 +28,7 @@ class FrameBuffer
         $this->initializeBuffer();
     }
 
-    public function attachObject(ObjectInterface $obect)
+    public function attachObject(ObjectInterface $object)
     {
         $this->objects[] = $object;
 
