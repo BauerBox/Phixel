@@ -39,6 +39,8 @@ class FrameBuffer
 
     public function getPixel($pixel)
     {
+        \BauerBox\Phixel\Debug\Debug::log('Getting Pixel from FB: ' . $pixel, print_r($this->buffer, true));
+
         if (null === $this->currentObject) {
             throw new \Exception('Can not get pixel while not in loop');
         }
