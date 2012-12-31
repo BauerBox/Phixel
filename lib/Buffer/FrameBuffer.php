@@ -32,6 +32,8 @@ class FrameBuffer
     {
         $this->objects[] = $object;
 
+        $object->setup($this->pixelCount);
+
         return $this;
     }
 
@@ -45,7 +47,7 @@ class FrameBuffer
             $this->buffer[$pixel]['pixels'][$this->currentObject] = $this->phixel->getNewPixel(0x000000);
         }
 
-        return $this->buffer['pixels'][$this->currentObject];
+        return $this->buffer[$pixel]['pixels'][$this->currentObject];
     }
 
     public function startLoop()
