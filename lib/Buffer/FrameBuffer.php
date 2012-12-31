@@ -23,7 +23,7 @@ class FrameBuffer
     public function __construct(Phixel &$phixel)
     {
         $this->pixelCount = $phixel->getPixelCount();
-        $this->phixel = & $phixel;
+        $this->phixel =& $phixel;
 
         $this->initializeBuffer();
     }
@@ -41,8 +41,8 @@ class FrameBuffer
             throw new \Exception('Can not get pixel while not in loop');
         }
 
-        if (false === array_key_exists($this->currentObject, $this->buffer['pixels'])) {
-            $this->buffer['pixels'][$this->currentObject] = $this->phixel->getNewPixel(0x000000);
+        if (false === array_key_exists($this->currentObject, $this->buffer[$pixel]['pixels'])) {
+            $this->buffer[$pixel]['pixels'][$this->currentObject] = $this->phixel->getNewPixel(0x000000);
         }
 
         return $this->buffer['pixels'][$this->currentObject];
