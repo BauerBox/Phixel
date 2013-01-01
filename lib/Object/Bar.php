@@ -36,7 +36,7 @@ class Bar extends AbstractObject
         $tailPosition = 1;
         foreach ($this->tail as $index) {
             if ($tailPosition == $this->length) {
-                $buffer->getPixel($index)->setBrightness(0);
+                $buffer->removePixel($index);
                 ++$tailPosition;
             } else {
                 $buffer->getPixel($index)->setBrightness(1 / $tailPosition++);
