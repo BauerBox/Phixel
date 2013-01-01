@@ -56,6 +56,23 @@ class FrameBuffer
         return $this->buffer[$pixel]['pixels'][$this->currentObject];
     }
 
+    public function removePixel($pixel)
+    {
+        if (null === $this->currentObject) {
+            throw new \Exception('Can not get pixel while not in loop');
+        }
+
+        $pixel = (int) $pixel;
+
+        if (false === array_key_exists($this->currentObject, $this->buffer[$pixel]['pixels'])) {
+            throw new \Exception('Invalid pixel index for current object');
+        }
+
+        $this->buffer[$pixel]['compiled'] = false;
+
+        unset($this->buffer[$pixel]['pixels'][$this->currentObject]);
+    }
+
     public function startLoop()
     {
         if (count($this->objects) < 1) {
