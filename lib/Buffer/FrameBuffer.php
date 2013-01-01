@@ -51,6 +51,8 @@ class FrameBuffer
             $this->buffer[$pixel]['pixels'][$this->currentObject] = $this->phixel->getNewPixel(0x000000);
         }
 
+        $this->buffer[$pixel]['compiled'] = false;
+
         return $this->buffer[$pixel]['pixels'][$this->currentObject];
     }
 
