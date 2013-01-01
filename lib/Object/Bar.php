@@ -13,7 +13,7 @@ class Bar extends AbstractObject
     protected $position;
     protected $tail;
 
-    public function construct($color = 0xffffff, $length = 5, $position = 0, $direction = 1)
+    public function __construct($color = 0xffffff, $length = 5, $position = 0, $direction = 1)
     {
         $this->color = $color;
         $this->length = $length;
