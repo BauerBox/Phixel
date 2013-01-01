@@ -4,7 +4,7 @@ namespace BauerBox\Phixel\Debug;
 
 class Debug
 {
-    protected static $enabled = true;
+    protected static $enabled = false;
 
     public static function enable()
     {
