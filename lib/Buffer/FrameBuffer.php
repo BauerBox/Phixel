@@ -126,7 +126,7 @@ class FrameBuffer
             );
         }
 
-        $this->frame = new PixelStream($this->pixelCount);
+        $this->frame = new PixelStream($this->pixelCount, 0x000000);
         $this->objects = array();
     }
 }
