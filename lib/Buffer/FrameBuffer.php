@@ -102,8 +102,13 @@ class FrameBuffer
                 continue;
             }
 
-            \BauerBox\Phixel\Debug\Debug::log("Processing Pixel: {$index}");
+            // Check if there are pixels
+            if (count($data['pixels']) < 1) {
+                \BauerBox\Phixel\Debug\Debug::log("Skipping Pixel: {$index}");
+                continue;
+            }
 
+            \BauerBox\Phixel\Debug\Debug::log("Processing Pixel: {$index}");
             $compiled = array(
                 'r' => 0,
                 'g' => 0,
