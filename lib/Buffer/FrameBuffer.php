@@ -94,7 +94,7 @@ class FrameBuffer
                 'a' => 0
             );
 
-            foreach ($data['pixel'] as $pixel) {
+            foreach ($data['pixels'] as $pixel) {
                 $compiled['r'] += $pixel->getRedChannel();
                 $compiled['g'] += $pixel->getGreenChannel();
                 $compiled['b'] += $pixel->getBlueChannel();
