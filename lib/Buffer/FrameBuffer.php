@@ -39,7 +39,7 @@ class FrameBuffer
 
     public function getPixel($pixel)
     {
-        \BauerBox\Phixel\Debug\Debug::log('Getting Pixel from FB: ' . $pixel, print_r($this->buffer, true));
+        \BauerBox\Phixel\Debug\Debug::log('Getting Pixel from FB: ' . $pixel);
 
         if (null === $this->currentObject) {
             throw new \Exception('Can not get pixel while not in loop');
@@ -76,11 +76,14 @@ class FrameBuffer
 
     protected function compileFrame()
     {
-        foreach ($this->buffer as $index => $data) {
+        foreach ($this->buffer as $index => &$data) {
             // Check if this pixel needs compiling
             if (true === $data['compiled']) {
+                \BauerBox\Phixel\Debug\Debug::log("Skipping Pixel: {$index}");
                 continue;
             }
+
+            \BauerBox\Phixel\Debug\Debug::log("Processing Pixel: {$index}");
 
             $compiled = array(
                 'r' => 0,
@@ -107,6 +110,8 @@ class FrameBuffer
                 ->setBrightness(
                     $compiled['a'] / count($data['pixels'])
                 );
+
+            $data['compiled'] = true;
         }
     }
 
