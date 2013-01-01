@@ -39,7 +39,7 @@ class Bar extends AbstractObject
                 $buffer->getPixel($index)->setBrightness(0);
                 ++$tailPosition;
             } else {
-                $buffer->getPixel($index)->setBrightness($tailPosition++);
+                $buffer->getPixel($index)->setBrightness(1 / $tailPosition++);
             }
         }
 
