@@ -11,7 +11,7 @@ $phixel = new Phixel(new LPD6803Driver('/dev/spidev0.0', 156));
 
 $frameBuffer = new FrameBuffer($phixel);
 
-$sphere = new GeodesicSphere(Phixel::getFilePath('Resources:Config:GeodesicSphereZones', 'ini'));
+$sphere = new GeodesicSphere('Resources:Config:GeodesicSphereZones');
 
 $frameBuffer->attachObject($sphere);
 $frameBuffer->startLoop();
