@@ -12,7 +12,15 @@ class GeodesicSphere extends AbstractObject
 
     public function __construct($zoneMap) {
         if (true === is_array($zoneMap)) {
-
+            $this->loadZoneMap($zoneMap);
+        } elseif (true === is_string($zoneMap)) {
+            if (false !== $file = \BauerBox\Phixel\Phixel::getFilePath($zoneMap, 'ini')) {
+                $this->loadZoneMap(parse_ini_file($file, true));
+            } else {
+                throw new \Exception('Invalid file shortcut: ' . $zoneMap);
+            }
+        } else {
+            throw new \Exception('Zonemap parameter must be file path shortcut or array');
         }
     }
 
