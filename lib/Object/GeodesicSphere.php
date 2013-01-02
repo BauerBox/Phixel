@@ -32,7 +32,9 @@ class GeodesicSphere extends AbstractObject
     public function processFrame(FrameBuffer $buffer)
     {
         if ($this->objectsLoaded === true) {
-
+            foreach ($this->zone as $zone) {
+                $zone->fill(mt_rand(0x000000, 0xffffff));
+            }
         } else {
             foreach ($this->zoneMap as $index => $zone) {
                 $this->zones[$index] = new Pentagon($zone, ($index < 6) ? Pentagon::ORIENTATION_POINT_NORTH : Pentagon::ORIENTATION_POINT_SOUTH);

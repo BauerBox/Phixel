@@ -12,6 +12,8 @@ class Pentagon extends AbstractObject
 
     protected $map;
     protected $orientation;
+    protected $pendingColors;
+    protected $pendingBrightness;
 
     public function __construct(array $map = null, $orientation = self::ORIENTATION_POINT_NORTH)
     {
@@ -22,12 +24,33 @@ class Pentagon extends AbstractObject
         }
 
         $this->orientation = $orientation;
+        $this->pendingColors = array();
+        $this->pendingBrightness = array();
     }
 
     public function processFrame(FrameBuffer $buffer)
     {
         foreach ($this->map as $index) {
-            $buffer->getPixel($index)->setColor(0x666666)->setBrightness(0.5);
+            if (true === array_key_exists($index, $this->pendingColors)) {
+                $buffer->getPixel($index)->setColor($this->pendingColors[$index]);
+                unset($this->pendingColors[$index]);
+            }
+
+            if (true === array_key_exists($index, $this->pendingBrightness)) {
+                $buffer->getPixel($index)->setBrightness($this->pendingBrightness[$index]);
+                unset($this->pendingBrightness[$index]);
+            }
+        }
+    }
+
+    public function fill($color, $brightness = null)
+    {
+        foreach ($this->map as $pixel) {
+            $this->pendingColors[$pixel] = $color;
+
+            if (null !== $brightness) {
+                $this->pendingBrightness[$pixel] = $brightness;
+            }
         }
     }
 }
