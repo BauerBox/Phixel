@@ -4,6 +4,7 @@ namespace BauerBox\Phixel\Object;
 
 use BauerBox\Phixel\Object\AbstractObject;
 use BauerBox\Phixel\Buffer\FrameBuffer;
+use BauerBox\Phixel\Debug\Debug;
 
 class Pentagon extends AbstractObject
 {
@@ -14,6 +15,9 @@ class Pentagon extends AbstractObject
     protected $orientation;
     protected $pendingColors;
     protected $pendingBrightness;
+    protected $center;
+    protected $innerRing;
+    protected $outerRing;
 
     public function __construct(array $map = null, $orientation = self::ORIENTATION_POINT_NORTH)
     {
@@ -26,6 +30,18 @@ class Pentagon extends AbstractObject
         $this->orientation = $orientation;
         $this->pendingColors = array();
         $this->pendingBrightness = array();
+        $this->outerRing = array();
+        $this->innerRing = array();
+
+        for ($i = 1; $i < 6; ++$i) {
+            $this->innerRing[] = $this->map[$i];
+        }
+
+        for ($i = 6; $i < 16; ++$i) {
+            $this->outerRing[] = $this->map[$i];
+        }
+
+        $this->center = $this->map[0];
     }
 
     public function processFrame(FrameBuffer $buffer)
@@ -45,7 +61,7 @@ class Pentagon extends AbstractObject
 
     public function fill($color, $brightness = 1.0)
     {
-        \BauerBox\Phixel\Debug\Debug::log('Filling pentagon with color: ' . $color);
+        Debug::log('Filling pentagon with color: ' . $color);
 
         foreach ($this->map as $pixel) {
             $this->pendingColors[$pixel] = $color;
@@ -53,6 +69,41 @@ class Pentagon extends AbstractObject
             if (null !== $brightness) {
                 $this->pendingBrightness[$pixel] = $brightness;
             }
+        }
+    }
+
+    public function drawOuterRing($color, $brightness = 1.0)
+    {
+        Debug::log('Drawing outer ring with color: ' . $color);
+
+        foreach ($this->outerRing as $pixelIndex) {
+            $this->pendingColors[$pixel] = $color;
+
+            if (null !== $brightness) {
+                $this->pendingBrightness = $brightness;
+            }
+        }
+    }
+
+    public function drawInnerRing($color, $brightness = 1.0)
+    {
+        Debug::log('Drawing inner ring with color: ' . $color);
+
+        foreach ($this->innerRing as $pixelIndex) {
+            $this->pendingColors[$pixel] = $color;
+
+            if (null !== $brightness) {
+                $this->pendingBrightness = $brightness;
+            }
+        }
+    }
+
+    public function drawCenter($color, $brightness = 1.0)
+    {
+        $this->pendingColors[$this->center] = $color;
+
+        if (null !== $brightness) {
+            $this->pendingBrightness[$this->center] = $brightness;
         }
     }
 }

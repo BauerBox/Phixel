@@ -13,7 +13,8 @@ class GeodesicSphere extends AbstractObject
     protected $zoneMap;
     protected $zones;
 
-    public function __construct($zoneMap) {
+    public function __construct($zoneMap)
+    {
         if (true === is_array($zoneMap)) {
             $this->loadZoneMap($zoneMap);
         } elseif (true === is_string($zoneMap)) {
@@ -33,7 +34,9 @@ class GeodesicSphere extends AbstractObject
     {
         if ($this->objectsLoaded === true) {
             foreach ($this->zones as $zone) {
-                $zone->fill(mt_rand(0x000000, 0xffffff), 0.5);
+                $zone->drawOuterRing(0xff0000, 0.5);
+                $zone->drawInnerRing(0x00ff00, 0.5);
+                $zone->drawCenter(0xffffff, 0.5);
             }
         } else {
             Debug::log('Loading Zones');
