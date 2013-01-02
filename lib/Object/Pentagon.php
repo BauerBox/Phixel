@@ -7,13 +7,19 @@ use BauerBox\Phixel\Buffer\FrameBuffer;
 
 class Pentagon extends AbstractObject
 {
-    protected $map = array();
+    const ORIENTATION_POINT_NORTH = 1;
+    const ORIENTATION_POINT_SOUTH = 2;
+    
+    protected $map;
+    protected $orientation;
 
-    public function __construct(array $map = null)
+    public function __construct(array $map = null, $orientation = self::ORIENTATION_POINT_NORTH)
     {
         if (null === $map) {
             $this->map = array(0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15);
         }
+        
+        $this->orientation = $orientation;
     }
 
     public function processFrame(FrameBuffer $buffer)
