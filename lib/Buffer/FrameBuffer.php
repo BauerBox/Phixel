@@ -5,6 +5,7 @@ namespace BauerBox\Phixel\Buffer;
 use BauerBox\Phixel\Phixel;
 use BauerBox\Phixel\Pixel\PixelStream;
 use BauerBox\Phixel\Object\ObjectInterface;
+use BauerBox\Phixel\Debug\Debug;
 
 class FrameBuffer
 {
@@ -31,7 +32,6 @@ class FrameBuffer
     public function attachObject(ObjectInterface $object)
     {
         $this->objects[] = $object;
-
         $object->setup($this->pixelCount);
 
         return $this;
@@ -39,7 +39,7 @@ class FrameBuffer
 
     public function getPixel($pixel)
     {
-        \BauerBox\Phixel\Debug\Debug::log('Getting Pixel from FB: ' . $pixel);
+        Debug::log('Getting Pixel from FB: ' . $pixel);
 
         if (null === $this->currentObject) {
             throw new \Exception('Can not get pixel while not in loop');
@@ -98,19 +98,19 @@ class FrameBuffer
         foreach ($this->buffer as $index => &$data) {
             // Check if this pixel needs compiling
             if (true === $data['compiled']) {
-                \BauerBox\Phixel\Debug\Debug::log("Skipping Pixel: {$index}");
+                Debug::log("Skipping Pixel: {$index}");
                 continue;
             }
 
             // Check if there are pixels
             if (count($data['pixels']) < 1) {
-                \BauerBox\Phixel\Debug\Debug::log("Skipping Pixel: {$index}");
+                Debug::log("Skipping Pixel: {$index}");
                 $this->frame->getPixel($index)->setColor(0x000000)->setBrightness(1.0);
                 $data['compiled'] = true;
                 continue;
             }
 
-            \BauerBox\Phixel\Debug\Debug::log("Processing Pixel: {$index}");
+            Debug::log("Processing Pixel: {$index}");
             $compiled = array(
                 'r' => 0,
                 'g' => 0,
