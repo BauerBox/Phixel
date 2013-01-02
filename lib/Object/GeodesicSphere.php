@@ -42,12 +42,18 @@ class GeodesicSphere extends AbstractObject
     {
         if ($this->objectsLoaded === true) {
             foreach ($this->zones as $zone) {
+                $center = array_shift($this->cycleColors);
+                $inner = array_shift($this->cycleColors);
+                $outer = array_shift($this->cycleColors);
 
-                $zone->drawOuterRing($this->cycleColors[0], 0.5);
-                $zone->drawInnerRing($this->cycleColors[1], 0.5);
-                $zone->drawCenter($this->cycleColors[2], 1.0);
+                $zone->drawOuterRing($outer, 0.5);
+                $zone->drawInnerRing($inner, 0.5);
+                $zone->drawCenter($center, 1.0);
 
-                array_unshift($this->cycleColors, array_pop($this->cycleColors));
+                array_push($this->cycleColors, $outer);
+                array_push($this->cycleColors, $center);
+                array_push($this->cycleColors, $inner);
+
             }
         } else {
             Debug::log('Loading Zones');
