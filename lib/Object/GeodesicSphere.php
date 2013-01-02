@@ -46,7 +46,7 @@ class GeodesicSphere extends AbstractObject
         Debug::log('Loading Zones', print_r($zoneMap, true));
 
         foreach ($zoneMap as $zone => $data) {
-            if (preg_match('@^Zone(?P<index>\d)$@', $zone, $match)) {
+            if (preg_match('@^Zone(?P<index>\d+)$@', $zone, $match)) {
                 Debug::log('Found zone: ' . $match['index']);
 
                 if (true === array_key_exists('led', $data) && true === (count($data['led']) == 16)) {
