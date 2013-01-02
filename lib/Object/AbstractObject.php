@@ -2,7 +2,6 @@
 
 namespace BauerBox\Phixel\Object;
 
-use BauerBox\Phixel\Buffer\FrameBuffer;
 use BauerBox\Phixel\Object\ObjectInterface;
 
 abstract class AbstractObject implements ObjectInterface
