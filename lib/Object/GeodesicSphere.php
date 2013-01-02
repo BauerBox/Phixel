@@ -46,10 +46,12 @@ class GeodesicSphere extends AbstractObject
     public function processFrame(FrameBuffer $buffer)
     {
         if ($this->objectsLoaded === true) {
-            $center = $this->wheel($this->position);
-            $inner = $this->wheel($this->wheel->next($this->position));
-            $outer = $this->wheel($this->wheel->next($this->wheel->next($this->position)));
-            $this->position = $this->wheel->next($this->position);
+            $wheel = $this->wheel;
+            
+            $center = $wheel($this->position);
+            $inner = $wheel($wheel->next($this->position));
+            $outer = $wheel($wheel->next($wheel->next($this->position)));
+            $this->position = $wheel->next($this->position);
 
             /*
             $center = array_shift($this->cycleColors);
@@ -62,7 +64,7 @@ class GeodesicSphere extends AbstractObject
                 $zone->drawInnerRing($inner, 0.5);
                 $zone->drawCenter($center, 1.0);
             }
-            
+
             /*
             array_push($this->cycleColors, $outer);
             array_push($this->cycleColors, $center);
