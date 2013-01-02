@@ -45,7 +45,7 @@ class Pentagon extends AbstractObject
 
     public function fill($color, $brightness = null)
     {
-        foreach ($this->map as $pixel) {
+        foreach ($this->map as $pixel => $object) {
             $this->pendingColors[$pixel] = $color;
 
             if (null !== $brightness) {
