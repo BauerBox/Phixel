@@ -2,4 +2,4 @@
 
 include_once __DIR__ . '/../../lib/Phixel.php';
 
-Phixel::installAutloader();
+BauerBox\Phixel\Phixel::installAutloader();
