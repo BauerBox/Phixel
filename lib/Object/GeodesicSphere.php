@@ -43,7 +43,7 @@ class GeodesicSphere extends AbstractObject
                 $buffer->attachObject($this->zones[$index]);
             }
 
-            $this->objectsLoaded === true;
+            $this->objectsLoaded = true;
         }
     }
 
