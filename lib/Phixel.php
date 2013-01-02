@@ -111,17 +111,23 @@ class Phixel
 
         $class = str_replace(array(static::$classBase, '\\'), array('', '/'), $class);
 
-        if (is_file($file = dirname(__FILE__).'/'.str_replace(array('_', "\0"), array('/', ''), $class).'.php')) {
+        if (false !== $file = static::getFilePath($class)) {
             require $file;
-            Debug::log('Loaded file: ' . $file);
-        } else {
-            Debug::log('Could not find file: ' . $file);
         }
     }
 
     public static function enableDebugOutput()
     {
         Debug::enable();
+    }
+
+    public static function getFilePath($shortcut, $extension = 'php')
+    {
+        if (is_file($file = dirname(__FILE__).'/'.str_replace(array('_', ':', "\0"), array('/', '/', ''), $shortcut).'.'.$extension)) {
+            return $file;
+        }
+
+        return false;
     }
 
     public static function getMaxBrightness()
