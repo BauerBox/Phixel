@@ -6,6 +6,7 @@ use BauerBox\Phixel\Object\AbstractObject;
 use BauerBox\Phixel\Object\Pentagon;
 use BauerBox\Phixel\Buffer\FrameBuffer;
 use BauerBox\Phixel\Debug\Debug;
+use BauerBox\Phixel\Color\Wheel;
 
 class GeodesicSphere extends AbstractObject
 {
@@ -14,6 +15,8 @@ class GeodesicSphere extends AbstractObject
     protected $zones;
 
     protected $cycleColors;
+    protected $wheel;
+    protected $position;
 
     public function __construct($zoneMap, $cycleColors = null)
     {
@@ -36,11 +39,19 @@ class GeodesicSphere extends AbstractObject
         if (null !== $cycleColors) {
             $this->cycleColors = $cycleColors;
         }
+
+        $this->wheel = new Wheel;
     }
 
     public function processFrame(FrameBuffer $buffer)
     {
         if ($this->objectsLoaded === true) {
+            $this->drawCenter($this->wheel($this->position));
+            $this->drawInnerRing($this->wheel($this->wheel->next($this->position)));
+            $this->drawOuterRing($this->wheel($this->wheel->next($this->wheel->next($this->position))));
+            $this->position = $this->wheel->next($this->position);
+
+            /*
             $center = array_shift($this->cycleColors);
             $inner = array_shift($this->cycleColors);
             $outer = array_shift($this->cycleColors);
@@ -54,7 +65,7 @@ class GeodesicSphere extends AbstractObject
             array_push($this->cycleColors, $outer);
             array_push($this->cycleColors, $center);
             array_push($this->cycleColors, $inner);
-            
+            */
         } else {
             Debug::log('Loading Zones');
             foreach ($this->zoneMap as $index => $zone) {
