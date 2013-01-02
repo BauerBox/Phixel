@@ -77,10 +77,10 @@ class Pentagon extends AbstractObject
         Debug::log('Drawing outer ring with color: ' . $color);
 
         foreach ($this->outerRing as $pixelIndex) {
-            $this->pendingColors[$pixel] = $color;
+            $this->pendingColors[$pixelIndex] = $color;
 
             if (null !== $brightness) {
-                $this->pendingBrightness = $brightness;
+                $this->pendingBrightness[$pixelIndex] = $brightness;
             }
         }
     }
@@ -90,10 +90,10 @@ class Pentagon extends AbstractObject
         Debug::log('Drawing inner ring with color: ' . $color);
 
         foreach ($this->innerRing as $pixelIndex) {
-            $this->pendingColors[$pixel] = $color;
+            $this->pendingColors[$pixelIndex] = $color;
 
             if (null !== $brightness) {
-                $this->pendingBrightness = $brightness;
+                $this->pendingBrightness[$pixelIndex] = $brightness;
             }
         }
     }
