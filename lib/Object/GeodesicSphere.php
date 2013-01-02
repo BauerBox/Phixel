@@ -32,7 +32,7 @@ class GeodesicSphere extends AbstractObject
     public function processFrame(FrameBuffer $buffer)
     {
         if ($this->objectsLoaded === true) {
-            foreach ($this->zone as $zone) {
+            foreach ($this->zones as $zone) {
                 $zone->fill(mt_rand(0x000000, 0xffffff), 1.0);
             }
         } else {
