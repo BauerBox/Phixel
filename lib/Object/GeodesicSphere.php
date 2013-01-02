@@ -33,10 +33,12 @@ class GeodesicSphere extends AbstractObject
     {
         if ($this->objectsLoaded === true) {
             foreach ($this->zone as $zone) {
-                $zone->fill(mt_rand(0x000000, 0xffffff));
+                $zone->fill(mt_rand(0x000000, 0xffffff), 1.0);
             }
         } else {
+            Debug::log('Loading Zones');
             foreach ($this->zoneMap as $index => $zone) {
+                Debug::log(' - Loading Zone: ' . $index);
                 $this->zones[$index] = new Pentagon($zone, ($index < 6) ? Pentagon::ORIENTATION_POINT_NORTH : Pentagon::ORIENTATION_POINT_SOUTH);
                 $buffer->attachObject($this->zones[$index]);
             }

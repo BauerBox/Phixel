@@ -43,9 +43,11 @@ class Pentagon extends AbstractObject
         }
     }
 
-    public function fill($color, $brightness = null)
+    public function fill($color, $brightness = 1.0)
     {
-        foreach ($this->map as $pixel => $object) {
+        \BauerBox\Phixel\Debug\Debug::log('Filling pentagon with color: ' . $color);
+
+        foreach ($this->map as $pixel) {
             $this->pendingColors[$pixel] = $color;
 
             if (null !== $brightness) {

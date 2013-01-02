@@ -96,13 +96,11 @@ class FrameBuffer
         foreach ($this->buffer as $index => &$data) {
             // Check if this pixel needs compiling
             if (true === $data['compiled']) {
-                Debug::log("Skipping Pixel: {$index}");
                 continue;
             }
 
             // Check if there are pixels
             if (count($data['pixels']) < 1) {
-                Debug::log("Skipping Pixel: {$index}");
                 $this->frame->getPixel($index)->setColor(0x000000)->setBrightness(1.0);
                 $data['compiled'] = true;
                 continue;
