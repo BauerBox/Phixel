@@ -33,7 +33,7 @@ class GeodesicSphere extends AbstractObject
     {
         if ($this->objectsLoaded === true) {
             foreach ($this->zones as $zone) {
-                $zone->fill(mt_rand(0x000000, 0xffffff), 1.0);
+                $zone->fill(mt_rand(0x000000, 0xffffff), 0.5);
             }
         } else {
             Debug::log('Loading Zones');

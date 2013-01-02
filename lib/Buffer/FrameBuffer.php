@@ -106,7 +106,6 @@ class FrameBuffer
                 continue;
             }
 
-            Debug::log("Processing Pixel: {$index}");
             $compiled = array(
                 'r' => 0,
                 'g' => 0,
