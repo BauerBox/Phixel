@@ -13,7 +13,9 @@ class GeodesicSphere extends AbstractObject
     protected $zoneMap;
     protected $zones;
 
-    public function __construct($zoneMap)
+    protected $cycleColors;
+
+    public function __construct($zoneMap, $cycleColors = null)
     {
         if (true === is_array($zoneMap)) {
             $this->loadZoneMap($zoneMap);
@@ -28,15 +30,24 @@ class GeodesicSphere extends AbstractObject
         } else {
             throw new \Exception('Zonemap parameter must be file path shortcut or array');
         }
+
+        $this->cycleColors = array();
+
+        if (null !== $cycleColors) {
+            $this->cycleColors = $cycleColors;
+        }
     }
 
     public function processFrame(FrameBuffer $buffer)
     {
         if ($this->objectsLoaded === true) {
             foreach ($this->zones as $zone) {
-                $zone->drawOuterRing(0xff0000, 0.5);
-                $zone->drawInnerRing(0x00ff00, 0.5);
-                $zone->drawCenter(0xffffff, 0.5);
+
+                $zone->drawOuterRing($this->cycleColors[0], 0.5);
+                $zone->drawInnerRing($this->cycleColors[1], 0.5);
+                $zone->drawCenter($this->cycleColors[2], 1.0);
+
+                array_unshift($this->cycleColors, array_pop($this->cycleColors));
             }
         } else {
             Debug::log('Loading Zones');
