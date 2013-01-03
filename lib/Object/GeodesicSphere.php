@@ -47,12 +47,22 @@ class GeodesicSphere extends AbstractObject
     {
         if ($this->objectsLoaded === true) {
             $wheel = $this->wheel;
-            
-            $center = $wheel($this->position);
-            $inner = $wheel($wheel->next($this->position));
-            $outer = $wheel($wheel->next($wheel->next($this->position)));
-            $this->position = $wheel->next($this->position);
 
+            $center = $wheel($this->position);
+
+            $this->position += 8;
+            if ($this->position > 255) {
+                $this->position -= 256;
+            }
+
+            $inner = $wheel($this->position);
+
+            if (($this->position + 8) > 256) {
+                $outer = $wheel(($this->position + 8) - 256);
+            } else {
+                $outer = $wheel($this->position + 8);
+            }
+            
             /*
             $center = array_shift($this->cycleColors);
             $inner = array_shift($this->cycleColors);
