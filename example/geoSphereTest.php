@@ -19,17 +19,18 @@ $pixel = new Pixel;
 $colors = array();
 
 foreach (array(0x0000ff, 0x000ff0, 0x00ff00, 0x0ff000, 0xff0000, 0xf0000f) as $color) {
-    for ($i = 0; $i < 1.05; $i += 0.1) {
+    for ($i = 0.25; $i < 1.05; $i += 0.25) {
+        $colors[] = $pixel->setColor($color)->setBrightness($i)->getCompiledColor();
+    }
+
+    for ($i = 1.0; $i > 0.20; $i -= 0.25) {
         $colors[] = $pixel->setColor($color)->setBrightness($i)->getCompiledColor();
     }
 }
 
 foreach ($colors as $color) {
-    Debug::logBinary($color);
+    Debug::logBinary($color, 24);
 }
-
-exit(0);
-
 
 $sphere = new GeodesicSphere('Resources:Config:GeodesicSphereZones', $colors);
 
