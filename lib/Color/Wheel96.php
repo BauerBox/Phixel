@@ -19,7 +19,8 @@ class Wheel96
             $position = 96 - $position;
         }
 
-        $shift = 0x00 | $position;
+        $position = 0x00 | $position;
+        $shift = $position >> 5;
 
         switch ($shift) {
             case 0:
