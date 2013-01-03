@@ -49,6 +49,7 @@ class GeodesicSphere extends AbstractObject
             $center = array_shift($this->cycleColors);
             $inner = array_shift($this->cycleColors);
             $outer = array_shift($this->cycleColors);
+            $temp = array_shift($this->cycleColors);
 
             foreach ($this->zones as $zone) {
                 $zone->drawOuterRing($outer, 1.0);
@@ -57,13 +58,18 @@ class GeodesicSphere extends AbstractObject
             }
 
             array_push($this->cycleColors, $outer);
-            array_push($this->cycleColors, $center);
-            array_push($this->cycleColors, $inner);
+            array_unshift($this->cycleColors, $inner);
+            array_unshift($this->cycleColors, $center);
+            array_unshift($this->cycleColors, $temp);
+
         } else {
             Debug::log('Loading Zones');
             foreach ($this->zoneMap as $index => $zone) {
                 Debug::log(' - Loading Zone: ' . $index);
-                $this->zones[$index] = new Pentagon($zone, ($index < 6) ? Pentagon::ORIENTATION_POINT_NORTH : Pentagon::ORIENTATION_POINT_SOUTH);
+                $this->zones[$index] = new Pentagon(
+                    $zone,
+                    ($index < 6) ? Pentagon::ORIENTATION_POINT_NORTH : Pentagon::ORIENTATION_POINT_SOUTH
+                );
                 $buffer->attachObject($this->zones[$index]);
             }
 

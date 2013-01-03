@@ -87,7 +87,7 @@ class Pixel
         $green = (0x00ff00 & ($green << 8));
         $blue = (0x0000ff & $blue);
 
-        $this->color = 0x000000 | $red | $green | $blue;
+        $this->color = (0x000000 | $red | $green | $blue);
 
         return $this;
     }
