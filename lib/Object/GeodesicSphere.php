@@ -62,7 +62,7 @@ class GeodesicSphere extends AbstractObject
             } else {
                 $outer = $wheel($this->position + 8);
             }
-            
+
             /*
             $center = array_shift($this->cycleColors);
             $inner = array_shift($this->cycleColors);
@@ -70,8 +70,8 @@ class GeodesicSphere extends AbstractObject
             */
 
             foreach ($this->zones as $zone) {
-                $zone->drawOuterRing($outer, 0.5);
-                $zone->drawInnerRing($inner, 0.5);
+                $zone->drawOuterRing($outer, 1.0);
+                $zone->drawInnerRing($inner, 1.0);
                 $zone->drawCenter($center, 1.0);
             }
 
