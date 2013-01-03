@@ -13,9 +13,9 @@ $phixel = new Phixel(new LPD6803Driver('/dev/spidev0.0', 156));
 $wheel = new Wheel96;
 
 
-for ($i = 0; $i < 128; ++$i) {
+for ($i = 0; $i < 96; ++$i) {
     Debug::log('Filling with wheel position: ' . $i);
     Debug::logBinary($wheel($i), 24);
     $phixel->fill($wheel($i));
-
+    $phixel->fill($wheel($i));
 }
