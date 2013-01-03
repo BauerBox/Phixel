@@ -16,4 +16,5 @@ $wheel = new Wheel96;
 for ($i = 0; $i < 128; ++$i) {
     Debug::log('Filling with wheel position: ' . $i);
     $phixel->fill($wheel($i));
+    $phixel->flush();
 }
