@@ -38,15 +38,13 @@ class Phixel
     public function allOn()
     {
         $this->driver->writePixelStream(new PixelStream($this->driver->getPixelCount(), 0xffffff))->flush();
-        usleep(100);
-
+        
         return $this;
     }
 
     public function allOff()
     {
         $this->driver->writePixelStream(new PixelStream($this->driver->getPixelCount(), 0x000000))->flush();
-        usleep(100);
 
         return $this;
     }
@@ -54,7 +52,6 @@ class Phixel
     public function fill($color = 0xffffff)
     {
         $this->driver->writePixelStream(new PixelStream($this->driver->getPixelCount(), $color))->flush();
-        usleep(100);
 
         return $this;
     }
