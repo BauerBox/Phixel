@@ -46,28 +46,9 @@ class GeodesicSphere extends AbstractObject
     public function processFrame(FrameBuffer $buffer)
     {
         if ($this->objectsLoaded === true) {
-            $wheel = $this->wheel;
-
-            $center = $wheel($this->position);
-
-            $this->position += 8;
-            if ($this->position > 255) {
-                $this->position -= 256;
-            }
-
-            $inner = $wheel($this->position);
-
-            if (($this->position + 8) > 256) {
-                $outer = $wheel(($this->position + 8) - 256);
-            } else {
-                $outer = $wheel($this->position + 8);
-            }
-
-            /*
             $center = array_shift($this->cycleColors);
             $inner = array_shift($this->cycleColors);
             $outer = array_shift($this->cycleColors);
-            */
 
             foreach ($this->zones as $zone) {
                 $zone->drawOuterRing($outer, 1.0);
@@ -75,11 +56,9 @@ class GeodesicSphere extends AbstractObject
                 $zone->drawCenter($center, 1.0);
             }
 
-            /*
             array_push($this->cycleColors, $outer);
             array_push($this->cycleColors, $center);
             array_push($this->cycleColors, $inner);
-            */
         } else {
             Debug::log('Loading Zones');
             foreach ($this->zoneMap as $index => $zone) {
