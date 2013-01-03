@@ -1,21 +1,16 @@
 <?php
 
 use BauerBox\Phixel\Phixel;
-use BauerBox\Phixel\Debug\Debug;
 use BauerBox\Phixel\Driver\LPD6803\LPD6803Driver;
-use BauerBox\Phixel\Color\Wheel96;
+use BauerBox\Phixel\Buffer\FrameBuffer;
 
-include_once __DIR__ . '/include/bootstrap.php';
+include 'include/bootstrap.php';
 
 Phixel::enableDebugOutput();
 
 $phixel = new Phixel(new LPD6803Driver('/dev/spidev0.0', 156));
-$wheel = new Wheel96;
 
+$frameBuffer = new FrameBuffer($phixel);
 
-for ($i = 0; $i < 96; ++$i) {
-    Debug::log('Filling with wheel position: ' . $i);
-    Debug::logBinary($wheel($i), 24);
-    $phixel->fill($wheel($i));
-    $phixel->fill($wheel($i));
-}
+$frameBuffer->attachObject(new BauerBox\Phixel\Object\Effect\WheelSnake(0xffffff, 25, 0, 1));
+$frameBuffer->startLoop();
