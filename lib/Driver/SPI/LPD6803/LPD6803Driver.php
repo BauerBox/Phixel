@@ -51,7 +51,7 @@ class LPD6803Driver implements DriverInterface
         */
         $bufferCount = count($this->buffer);
         for ($i = 0; $i < $bufferCount; ++$i) {
-            wiringPiSPIDataRW(0, $this->buffer[$i], 1);
+            wiringPiSPIDataRW(0, $this->packChar($this->buffer[$i], 1));
         }
 
         $this->buffer = array();
@@ -161,6 +161,11 @@ class LPD6803Driver implements DriverInterface
                 $e
             );
         }
+    }
+
+    protected function packChar($data)
+    {
+        return pack('C', (int) $data);
     }
 
     protected function pack16($data)
