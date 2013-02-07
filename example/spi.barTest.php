@@ -11,7 +11,7 @@ include_once __DIR__ . '/../lib/Phixel.php';
 Phixel::installAutloader();
 Phixel::setMaxBrightness(0.5);
 
-$phixel = new Phixel(new LPD6803Driver(0, 4000000, 192));
+$phixel = new Phixel(new LPD6803Driver(0, 2000000, 192));
 $phixel->allOff();
 
 $frame = new FrameBuffer($phixel);
