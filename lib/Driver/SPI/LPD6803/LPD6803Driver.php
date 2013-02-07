@@ -57,7 +57,7 @@ class LPD6803Driver implements DriverInterface
 
     public function openSocket()
     {
-        if (wiringPiSPISetup(0, 8000000) < 0) {
+        if (wiringPiSPISetup(0, $this->speed) < 0) {
             throw new \Exception('There was an error running setup for SPI');
         }
 
@@ -92,7 +92,15 @@ class LPD6803Driver implements DriverInterface
 
     public function writeData($data)
     {
-        $this->buffer .= $this->packMultiChar($data);
+        Debug::logBinary($data, 16);
+
+        $this->buffer .= $this->packChar(0xFF & ($data >> 8));
+        $this->buffer .= $this->packChar(0xFF & $data);
+
+        Debug::logBinary(0xFF & ($data >> 8), 8);
+        Debug::logBinary(0xFF & $data, 8);
+
+        //$this->buffer .= $this->packMultiChar($data);
 
         return $this;
     }
@@ -115,7 +123,7 @@ class LPD6803Driver implements DriverInterface
     public function writeReset()
     {
         Debug::log('Sending Reset To Device');
-        $this->writeData($this->reset);
+        $this->writeData(0x00)->writeData(0x00);
         return $this;
     }
 
@@ -160,7 +168,7 @@ class LPD6803Driver implements DriverInterface
 
     protected function packMultiChar($data)
     {
-        return pack('C*', $data);
+        return pack('C*', (int) $data);
     }
 
     protected function pack16($data)
