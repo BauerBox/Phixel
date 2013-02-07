@@ -49,8 +49,10 @@ class LPD6803Driver implements DriverInterface
 
         fflush($this->socket);
         */
-
-        wiringPiSPIDataRW(0, $this->buffer, count($this->buffer));
+        $bufferCount = count($this->buffer);
+        for ($i = 0; $i < $bufferCount; ++$i) {
+            wiringPiSPIDataRW(0, $this->buffer[$i], 1);
+        }
 
         $this->buffer = array();
         $this->writeReset();
