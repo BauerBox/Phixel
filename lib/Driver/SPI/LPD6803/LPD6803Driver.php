@@ -176,6 +176,6 @@ class LPD6803Driver implements DriverInterface
     protected function setup()
     {
         $this->reset = 0x0000 & 0xFFFF;
-        return $this->checkDevice();
+        return $this;
     }
 }
