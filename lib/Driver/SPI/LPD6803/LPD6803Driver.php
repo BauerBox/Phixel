@@ -10,20 +10,21 @@ use BauerBox\Phixel\Pixel\PixelStream;
 class LPD6803Driver implements DriverInterface
 {
     protected $buffer;
-    protected $device;
+    protected $channel;
     protected $pixelCount;
     protected $pixelMaskRed = 0b1111110000000000;
     protected $pixelMaskGreen = 0b1000001111100000;
     protected $pixelMaskBlue = 0b1000000000011111;
     protected $pixelMaskBase = 0b1000000000000000;
     protected $socket;
+    protected $speed;
     protected $reset;
 
-    public function __construct($device = '/dev/spidev0.0', $pixelCount = 25)
+    public function __construct($channel = 0, $speed = 8000000, $pixelCount = 25)
     {
-        $this->device = $device;
+        $this->channel = $channel;
+        $this->speed = $speed;
         $this->pixelCount = $pixelCount;
-
         $this->setup();
     }
 
@@ -40,21 +41,10 @@ class LPD6803Driver implements DriverInterface
             throw new \Exception('There is no data in the buffer to flush');
         }
 
-        /*
-        $bufferSize = strlen($this->buffer);
+        $bufferCount = strlen($this->buffer);
+        wiringPiSPIDataRW($this->channel, $this->buffer, $bufferCount);
 
-        for ($i = 0; $i < $bufferSize; $i += 2) {
-            fwrite($this->socket, substr($this->buffer, $i, 2));
-        }
-
-        fflush($this->socket);
-        */
-        $bufferCount = count($this->buffer);
-        for ($i = 0; $i < $bufferCount; ++$i) {
-            wiringPiSPIDataRW(0, $this->buffer[$i], 1);
-        }
-
-        $this->buffer = array();
+        $this->buffer = '';
         $this->writeReset();
 
         return $this;
@@ -88,7 +78,7 @@ class LPD6803Driver implements DriverInterface
 
     public function setDevice($device)
     {
-        $this->device = $device;
+        $this->channel = $device;
 
         return $this;
     }
@@ -102,25 +92,21 @@ class LPD6803Driver implements DriverInterface
 
     public function writeData($data)
     {
-        $temp = $this->packMultiChar($data);
-        $l = strlen($temp);
-        if ($l > 1) {
-            for ($i = 0; $i < $l; ++$i) {
-                $this->buffer[] = substr($temp, $i, 1);
-            }
-        } else {
-            $this->buffer[] = $temp;
-        }
+        $this->buffer .= $this->packMultiChar($data);
 
         return $this;
     }
 
-    public function writePixelStream(PixelStream $stream)
+    public function writePixelStream(PixelStream $stream, $flush = false)
     {
         $this->writeReset();
 
         foreach ($stream->getPixelArray() as $pixel) {
             $this->writeData($this->processPixel($pixel));
+        }
+
+        if (true === $flush) {
+            return $this->flush();
         }
 
         return $this;
@@ -129,21 +115,20 @@ class LPD6803Driver implements DriverInterface
     public function writeReset()
     {
         Debug::log('Sending Reset To Device');
-        $this->writeData(0x00)->writeData(0x00);
-
+        $this->writeData($this->reset);
         return $this;
     }
 
     protected function checkDevice()
     {
-        Debug::log('Checking device: ' . $this->device);
+        Debug::log('Checking device: ' . $this->channel);
 
-        if (false === file_exists($this->device)) {
+        if (false === file_exists($this->channel)) {
             $this->loadKernelModule();
         }
 
-        if (false === is_writable($this->device)) {
-            throw new \Exception('The device ' . $this->device . ' is not writable by the current user');
+        if (false === is_writable($this->channel)) {
+            throw new \Exception('The device ' . $this->channel . ' is not writable by the current user');
         }
 
         return $this;
@@ -156,7 +141,7 @@ class LPD6803Driver implements DriverInterface
         try {
             shell_exec('gpio load spi > /dev/null 2> /dev/null');
 
-            if (false === file_exists($this->device)) {
+            if (false === file_exists($this->channel)) {
                 throw new \Exception('SPI device kernel module could not be loaded');
             }
         } catch (\Exception $e) {
@@ -190,9 +175,7 @@ class LPD6803Driver implements DriverInterface
 
     protected function setup()
     {
-        $this->reset = $this->pack32(0x00);
-        $this->buffer = array();
-
-        $this->checkDevice();
+        $this->reset = 0x0000 & 0xFFFF;
+        return $this->checkDevice();
     }
 }
