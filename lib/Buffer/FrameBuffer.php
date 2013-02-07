@@ -20,6 +20,8 @@ class FrameBuffer
     protected $phixel;
     protected $pixelCount;
     protected $objects;
+    protected $loopStart;
+    protected $loopIterations;
 
     public function __construct(Phixel &$phixel)
     {
@@ -79,6 +81,9 @@ class FrameBuffer
 
         $this->continue = true;
 
+        $this->loopStart = microtime(true);
+        $this->loopIterations = 0;
+
         while (true === $this->continue) {
             foreach ($this->objects as $index => $object) {
                 $this->currentObject = $index;
@@ -86,7 +91,6 @@ class FrameBuffer
             }
 
             $this->compileFrame();
-
             $this->flushFrame();
         }
     }
@@ -139,6 +143,12 @@ class FrameBuffer
     protected function flushFrame()
     {
         $this->phixel->getDriver()->writePixelStream($this->frame)->flush();
+
+        // Calculate FPS
+        $time = microtime(true) - $this->loopStart;
+        $pf = $time / ++$this->loopIterations;
+        $fps = $pf / 1;
+        Debug::log("Estimated FPS: " . sprintf('%04.2f', $fps));
     }
 
     protected function initializeBuffer()
