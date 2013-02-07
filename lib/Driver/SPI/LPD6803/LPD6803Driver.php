@@ -51,7 +51,7 @@ class LPD6803Driver implements DriverInterface
         */
         $bufferCount = count($this->buffer);
         for ($i = 0; $i < $bufferCount; ++$i) {
-            wiringPiSPIDataRW(0, $this->packChar($this->buffer[$i]), 1);
+            wiringPiSPIDataRW(0, $this->buffer[$i], 1);
         }
 
         $this->buffer = array();
@@ -102,10 +102,16 @@ class LPD6803Driver implements DriverInterface
 
     public function writeData($data)
     {
-        /*
-        $this->buffer .= $this->pack16($data);
-        */
-        $this->buffer[] = (0xFF & $data);
+        $temp = $this->packMultiChar($data);
+        $l = strlen($temp);
+        if ($l > 1) {
+            for ($i = 0; $i < $l; ++$i) {
+                $this->buffer[] = substr($temp, $i, 1);
+            }
+        } else {
+            $this->buffer[] = $temp;
+        }
+
         return $this;
     }
 
@@ -123,8 +129,7 @@ class LPD6803Driver implements DriverInterface
     public function writeReset()
     {
         Debug::log('Sending Reset To Device');
-        $this->buffer[] = 0x00;
-        $this->buffer[] = 0x00;
+        $this->writeData(0x00)->writeData(0x00);
 
         return $this;
     }
@@ -166,6 +171,11 @@ class LPD6803Driver implements DriverInterface
     protected function packChar($data)
     {
         return pack('C', (int) $data);
+    }
+
+    protected function packMultiChar($data)
+    {
+        return pack('C*', $data);
     }
 
     protected function pack16($data)
