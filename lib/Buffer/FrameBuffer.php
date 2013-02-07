@@ -145,9 +145,9 @@ class FrameBuffer
         $this->phixel->getDriver()->writePixelStream($this->frame)->flush();
 
         // Calculate FPS
-        $time = microtime(true) - $this->loopStart;
-        $pf = $time / ++$this->loopIterations;
-        $fps = $pf / 1;
+        $time = (microtime(true) - $this->loopStart);
+        $fps = ++$this->loopIterations / $time;
+
         Debug::log("Estimated FPS: " . sprintf('%04.2f', $fps));
     }
 
