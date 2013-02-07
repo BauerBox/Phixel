@@ -92,15 +92,9 @@ class LPD6803Driver implements DriverInterface
 
     public function writeData($data)
     {
-        Debug::logBinary($data, 16);
-
+        $data = $data & 0xFFFF;
         $this->buffer .= $this->packChar(0xFF & ($data >> 8));
         $this->buffer .= $this->packChar(0xFF & $data);
-
-        Debug::logBinary(0xFF & ($data >> 8), 8);
-        Debug::logBinary(0xFF & $data, 8);
-
-        //$this->buffer .= $this->packMultiChar($data);
 
         return $this;
     }
@@ -123,7 +117,7 @@ class LPD6803Driver implements DriverInterface
     public function writeReset()
     {
         Debug::log('Sending Reset To Device');
-        $this->writeData(0x00)->writeData(0x00);
+        $this->writeData(0x0000)->writeData(0x0000);
         return $this;
     }
 
