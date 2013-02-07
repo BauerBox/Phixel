@@ -40,8 +40,8 @@ class LPD6803Driver implements DriverInterface
             throw new \Exception('There is no data in the buffer to flush');
         }
 
-        $bufferSize = strlen($this->buffer);
         /*
+        $bufferSize = strlen($this->buffer);
 
         for ($i = 0; $i < $bufferSize; $i += 2) {
             fwrite($this->socket, substr($this->buffer, $i, 2));
@@ -50,9 +50,9 @@ class LPD6803Driver implements DriverInterface
         fflush($this->socket);
         */
 
-        wiringPiSPIDataRW(0, $this->buffer, $bufferSize);
+        wiringPiSPIDataRW(0, $this->buffer, count($this->buffer));
 
-        $this->buffer = '';
+        $this->buffer = array();
         $this->writeReset();
 
         return $this;
@@ -100,8 +100,10 @@ class LPD6803Driver implements DriverInterface
 
     public function writeData($data)
     {
+        /*
         $this->buffer .= $this->pack16($data);
-
+        */
+        $this->buffer[] = (0xFF & $data);
         return $this;
     }
 
@@ -119,7 +121,8 @@ class LPD6803Driver implements DriverInterface
     public function writeReset()
     {
         Debug::log('Sending Reset To Device');
-        $this->buffer .= $this->reset;
+        $this->buffer[] = 0x00;
+        $this->buffer[] = 0x00;
 
         return $this;
     }
@@ -171,6 +174,7 @@ class LPD6803Driver implements DriverInterface
     protected function setup()
     {
         $this->reset = $this->pack32(0x00);
+        $this->buffer = array();
 
         $this->checkDevice();
     }
