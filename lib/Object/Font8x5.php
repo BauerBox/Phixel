@@ -4,7 +4,7 @@ namespace BauerBox\Phixel\Object;
 
 use BauerBox\Phixel\Object\AbstractObject;
 use BauerBox\Phixel\Buffer\FrameBuffer;
-use BauerBox\Phixel\Color\Wheel96;
+use BauerBox\Phixel\Color\Wheel;
 
 class Font8x5 extends AbstractObject
 {
@@ -739,7 +739,7 @@ class Font8x5 extends AbstractObject
 
     public function processFrame(FrameBuffer $buffer)
     {
-        $wheel = new Wheel96;
+        $wheel = new Wheel;
         if (null === $this->currentString) {
             // Prepare the string
             $this->currentString = array(
