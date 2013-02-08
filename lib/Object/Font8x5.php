@@ -746,7 +746,7 @@ class Font8x5 extends AbstractObject
                 'string' => array_shift($this->strings),
                 'data' => array(),
                 'progress' => array(),
-                'color' => ($this->color === null) ? $wheel(mt_rand(0, 96)) : $this->color
+                'color' => ($this->color === null) ? $wheel(mt_rand(0, 255)) : $this->color
             );
 
             if (null === $this->currentString['string']) {
