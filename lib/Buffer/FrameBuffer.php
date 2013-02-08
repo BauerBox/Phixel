@@ -39,6 +39,12 @@ class FrameBuffer
         return $this;
     }
 
+    /**
+     *
+     * @param type $pixel
+     * @return Pixel
+     * @throws \Exception
+     */
     public function getPixel($pixel)
     {
         if (null === $this->currentObject) {
@@ -93,6 +99,11 @@ class FrameBuffer
             $this->compileFrame();
             $this->flushFrame();
         }
+    }
+
+    public function stopLoop()
+    {
+        $this->continue = false;
     }
 
     protected function compileFrame()
