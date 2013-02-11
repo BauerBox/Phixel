@@ -969,6 +969,7 @@ class Font8xV extends AbstractObject
     protected $color;
     protected $colors;
     protected $loop;
+    protected $antialias;
 
     protected $currentString;
 
@@ -981,6 +982,7 @@ class Font8xV extends AbstractObject
         $this->setColumns($columns);
         $this->color = null;
         $this->colors = array();
+        $this->antialias = false;
     }
 
     public function setColors($colors)
@@ -1135,21 +1137,25 @@ class Font8xV extends AbstractObject
                     $buffer->removePixel($this->columnBuffer[$col][$row]);
                 } else {
                     $pixel->setColor($this->currentString['color']);
-                    switch ($value) {
-                        case '-':
-                            $pixel->setBrightness(0.25);
-                            break;
-                        case '+':
-                            $pixel->setBrightness(0.5);
-                            break;
-                        case '*':
-                            $pixel->setBrightness(0.75);
-                            break;
-                        case '#':
-                            $pixel->setBrightness(1.0);
-                            break;
-                        default:
-                            throw \Exception('Invalid font character: ' . $value);
+                    if (true === $this->antialias) {
+                        switch ($value) {
+                            case '-':
+                                $pixel->setBrightness(0.25);
+                                break;
+                            case '+':
+                                $pixel->setBrightness(0.5);
+                                break;
+                            case '*':
+                                $pixel->setBrightness(0.75);
+                                break;
+                            case '#':
+                                $pixel->setBrightness(1.0);
+                                break;
+                            default:
+                                throw \Exception('Invalid font character: ' . $value);
+                        }
+                    } else {
+                        $pixel->setBrightness(1.0);
                     }
                 }
             }
@@ -1162,5 +1168,17 @@ class Font8xV extends AbstractObject
             }
             $this->currentString = null;
         }
+    }
+
+    public function enableAntialiasing()
+    {
+        $this->antialias = true;
+        return $this;
+    }
+
+    public function disableAntialiasing()
+    {
+        $this->antialias = false;
+        return $this;
     }
 }
