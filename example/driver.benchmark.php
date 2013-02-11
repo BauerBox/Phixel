@@ -26,7 +26,7 @@ foreach ($drivers as $description => $driver) {
     $phixel = new Phixel($driver);
     $phixel->allOff();
 
-    $font = new Font8x5(24, false, array('abcdefghijklmnopqrstuvwxyz'));
+    $font = new Font8x5(24, false, array('abcdefghijklmnopqrstuvwxyz'), 0xffffff);
 
     $frame = new FrameBuffer($phixel);
     $frame->attachObject($font);
@@ -40,7 +40,12 @@ foreach ($drivers as $description => $driver) {
     $stats[$description]['stop'] = microtime(true);
     echo " > Stopwatch Stopped" . PHP_EOL;
 
-    $driver->closeSocket();
+    try {
+        $driver->closeSocket();
+    } catch (\Exception $e) {
+        echo " ! Socket Error ! " . PHP_EOL;
+    }
+
     unset($frame);
     unset($font);
     unset($phixel);

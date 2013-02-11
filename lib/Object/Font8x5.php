@@ -711,12 +711,12 @@ class Font8x5 extends AbstractObject
 
     protected $columnBuffer;
 
-    public function __construct($columns = 24, $loop = true, array $strings = array())
+    public function __construct($columns = 24, $loop = true, array $strings = array(), $color = null)
     {
         $this->strings = $strings;
         $this->loop = (boolean) $loop;
         $this->setColumns($columns);
-        $this->color = null;
+        $this->color = $color;
     }
 
     public function setColumns($columns)
