@@ -55,16 +55,9 @@ class WS2801Driver extends AbstractHybridDriver
 
         $data = $data & 0xFFFFFF;
 
-        //$this->buffer .= $this->packChar(0xFF & $data);
-        //$this->buffer .= $this->packChar(0xFF & ($data >> 8));
-        //$this->buffer .= $this->packChar(0xFF & ($data >> 16));
-
-        $this->buffer .= pack(
-            'c*',
-            $this->packChar(0xFF & $data),
-            $this->packChar(0xFF & $data >> 8),
-            $this->packChar(0xFF & $data >> 16)
-        );
+        $this->buffer .= $this->packChar(0xFF & ($data >> 16))
+        . $this->packChar(0xFF & ($data >> 8))
+        . $this->packChar(0xFF & $data);
 
         return $this;
     }
