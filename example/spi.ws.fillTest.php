@@ -21,5 +21,5 @@ while (true) {
     }
 
     $time = microtime(true) - $time;
-    echo "FPS: " . ($time / 256) . PHP_EOL;
+    echo "FPS: " . (256 / $time) . PHP_EOL;
 }
