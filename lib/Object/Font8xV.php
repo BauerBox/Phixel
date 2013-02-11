@@ -185,7 +185,7 @@ class Font8xV extends AbstractObject
             '#   #',
             '#   #',
             '#   #',
-            '# + #',
+            '# * #',
             '+### ',
             '    #'
         ),
@@ -1155,7 +1155,11 @@ class Font8xV extends AbstractObject
                                 throw \Exception('Invalid font character: ' . $value);
                         }
                     } else {
-                        $pixel->setBrightness(1.0);
+                        if ($value == '-' || $value == '+') {
+                            $pixel->setBrightness(0);
+                        } else {
+                            $pixel->setBrightness(1.0);
+                        }
                     }
                 }
             }
