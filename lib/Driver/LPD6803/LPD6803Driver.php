@@ -12,10 +12,7 @@ class LPD6803Driver implements DriverInterface
     protected $buffer;
     protected $device;
     protected $pixelCount;
-    protected $pixelMaskRed = 0b1111110000000000;
-    protected $pixelMaskGreen = 0b1000001111100000;
-    protected $pixelMaskBlue = 0b1000000000011111;
-    protected $pixelMaskBase = 0b1000000000000000;
+    protected $pixelMaskBase = 0x8000;
     protected $socket;
     protected $reset;
 
@@ -111,12 +108,16 @@ class LPD6803Driver implements DriverInterface
         return $this;
     }
 
-    public function writePixelStream(PixelStream $stream)
+    public function writePixelStream(PixelStream $stream, $flush = false)
     {
         $this->writeReset();
 
         foreach ($stream->getPixelArray() as $pixel) {
             $this->writeData($this->processPixel($pixel));
+        }
+
+        if (true === $flush) {
+            return $this->flush();
         }
 
         return $this;
