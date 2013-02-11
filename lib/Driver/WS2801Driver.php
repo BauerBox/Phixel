@@ -8,7 +8,7 @@ use BauerBox\Phixel\Debug\Debug;
 
 class WS2801Driver extends AbstractHybridDriver
 {
-    protected $channelSpeed = self::SPEED_4_MHZ;
+    protected $channelSpeed = self::SPEED_2_MHZ;
 
     protected function flushRaw()
     {
