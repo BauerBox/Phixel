@@ -148,7 +148,6 @@ abstract class AbstractHybridDriver implements DriverInterface
         }
 
         $this->resetBuffer();
-
         return $this;
     }
 

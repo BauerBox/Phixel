@@ -14,6 +14,13 @@ $phixel->allOff();
 
 $wheel = new Wheel;
 
-for ($i = 0; $i < 256; ++$i) {
-    $phixel->fill($wheel($i));
+while (true) {
+    $time - microtime(true);
+
+    for ($i = 0; $i < 256; ++$i) {
+        $phixel->fill($wheel($i));
+    }
+
+    $time = microtime(true) - $time;
+    echo "FPS: " . ($time / 256) . PHP_EOL;
 }
