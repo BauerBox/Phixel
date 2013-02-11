@@ -16,10 +16,10 @@ class Wheel
     public function __invoke($position)
     {
         if ($position < 85) {
-            return $this->pixel->setColorRGB($position * 3, 255 - $position, 0)->getColor();
+            return $this->pixel->setColorRGB($position * 3, 255 - $position * 3, 0)->getColor();
 		} elseif ($position < 170) {
 			$position -= 85;
-            return $this->pixel->setColorRGB(255 - ($position * 3), 0, $position * 3)->getColor();
+            return $this->pixel->setColorRGB(255 - $position * 3, 0, $position * 3)->getColor();
 		} else {
 			$position -= 170;
             return $this->pixel->setColorRGB(0, $position * 3, 255 - $position * 3)->getColor();
