@@ -44,11 +44,6 @@ abstract class AbstractHybridDriver implements DriverInterface
         $this->setDevice($device);
     }
 
-    public function __destruct()
-    {
-        $this->closeSocket();
-    }
-
     public function setMode($mode = null)
     {
         if (true === $this->modeLocked) {
