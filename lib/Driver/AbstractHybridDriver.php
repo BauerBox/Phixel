@@ -166,7 +166,9 @@ abstract class AbstractHybridDriver implements DriverInterface
     {
         $this->writeReset();
 
-        foreach ($stream->getPixelArray() as $pixel) {
+        $array = $stream->getPixelArray();
+
+        foreach ($array as &$pixel) {
             $this->writeData($this->processPixel($pixel));
         }
 
