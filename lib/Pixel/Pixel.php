@@ -61,7 +61,8 @@ class Pixel
         return array(
             'r' => $this->getRedChannel(),
             'g' => $this->getGreenChannel(),
-            'b' => $this->getBlueChannel()
+            'b' => $this->getBlueChannel(),
+            'full' => $this->getColor()
         );
     }
 
