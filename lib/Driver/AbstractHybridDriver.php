@@ -112,8 +112,6 @@ abstract class AbstractHybridDriver implements DriverInterface
             if (wiringPiSPISetup($this->device, $this->channelSpeed) < 0) {
                 throw new \Exception('There was an error running setup for SPI');
             }
-
-            wiringPiSetupSys();
         }
 
         return $this;
@@ -232,14 +230,22 @@ abstract class AbstractHybridDriver implements DriverInterface
         $device = $this->getDevice($this->device);
         Debug::log('Checking device: ' . $device . ' (Channel ' . $this->device . ')');
 
-        if (false === file_exists($device)) {
-            $this->loadKernelModule();
-        }
+        if ($this->mode === self::MODE_RAW) {
+            if (false === file_exists($device)) {
+                $this->loadKernelModule();
+            }
 
-        if (false === is_writable($device)) {
-            throw new \Exception(
-                'The device ' . $device . ' is not writable by the current user'
-            );
+            if (false === is_writable($device)) {
+                throw new \Exception(
+                    'The device ' . $device . ' is not writable by the current user'
+                );
+            }
+        } else {
+            if (false === $this->isWiringPiSpiAvailable()) {
+                throw new \Exception('To use SPI mode, you must enable the wiringPi extension with SPI bindings');
+            }
+
+            Debug::log('WiringPi Sys Setup: ' . wiringPiSetupSys());
         }
 
         return $this;
