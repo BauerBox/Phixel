@@ -38,12 +38,6 @@ class WS2801Driver extends AbstractHybridDriver
         $bufferCount = strlen($this->buffer);
         wiringPiSPIDataRW($this->device, $this->buffer, $bufferCount);
 
-        for ($i = 0; $i < $bufferCount; $i += 3) {
-            Debug::log(sprintf('%3X', substr($this->buffer, $i, 3)));
-        }
-
-        sleep(1);
-
         $this->writeReset();
 
         return $this;
@@ -57,6 +51,8 @@ class WS2801Driver extends AbstractHybridDriver
 
     public function writeData($data)
     {
+        Debug::log(sprintf('%06X', $data));
+
         $data = $data & 0xFFFFFF;
         $this->buffer .= $this->packChar(0xFF & $data);
         $this->buffer .= $this->packChar(0xFF & ($data >> 8));
