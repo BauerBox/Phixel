@@ -34,6 +34,7 @@ abstract class AbstractHybridDriver implements DriverInterface
     protected $pixelCount;
 
     protected $mode = self::MODE_RAW;
+    protected $modeLocked = false;
     protected $socket;
 
     public function __construct($pixelCount = 25, $mode = null, $device = 0)
@@ -43,12 +44,24 @@ abstract class AbstractHybridDriver implements DriverInterface
         $this->setDevice($device);
     }
 
+    public function __destruct()
+    {
+        $this->closeSocket();
+    }
+
     public function setMode($mode = null)
     {
+        if (true === $this->modeLocked) {
+            throw new \Exception('The mode can not be changed once the socket has been opened!');
+        }
+
         if (null === $mode) {
+            Debug::log('Auto-setting mode');
             if (true === $this->isWiringPiSpiAvailable()) {
+                Debug::log('Setting mode to SPI');
                 $mode = self::MODE_SPI;
             } else {
+                Debug::log('Setting mode to RAW');
                 $mode = self::MODE_RAW;
             }
         }
@@ -84,10 +97,11 @@ abstract class AbstractHybridDriver implements DriverInterface
     {
         Debug::log('Opening driver socket');
 
+        $this->modeLocked = true;
         $this->checkDevice();
 
         if ($this->mode === self::MODE_RAW) {
-            if (null === $this->getDevice($this->device)) {
+            if (null === $this->device) {
                 throw new \Exception('Cannot open socket to null device');
             }
 
@@ -119,6 +133,8 @@ abstract class AbstractHybridDriver implements DriverInterface
             }
         }
 
+        $this->modeLocked = false;
+
         return $this;
     }
 
@@ -132,7 +148,7 @@ abstract class AbstractHybridDriver implements DriverInterface
     {
         Debug::log('Flushing buffer to device');
 
-        if ($this->mode === self::MODE_SPI) {
+        if ($this->mode === self::MODE_RAW) {
             $this->flushRaw();
         } else {
             $this->flushSpi();
