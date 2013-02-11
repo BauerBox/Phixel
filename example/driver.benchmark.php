@@ -26,7 +26,7 @@ foreach ($drivers as $description => $driver) {
     $phixel = new Phixel($driver);
     $phixel->allOff();
 
-    $font = new Font8x5(24, false, array('abcdefghijklmnopqrstuvwxyz'), 0xffffff);
+    $font = new Font8x5(24, false, array('BANG!'), 0xffffff);
 
     $frame = new FrameBuffer($phixel);
     $frame->attachObject($font);
@@ -49,5 +49,41 @@ foreach ($drivers as $description => $driver) {
 echo "And the results are in: " . PHP_EOL;
 foreach ($stats as $description => $times) {
     echo PHP_EOL . "Driver: {$description}" . PHP_EOL;
-    echo ' TIME: ' . sprinf('%06.4f', (float) ($times['stop'] - $times['start'])) . PHP_EOL;
+    echo ' TIME: ' . sprintf('%06.4f', (float) ($times['stop'] - $times['start'])) . PHP_EOL;
+}
+
+$drivers = array_reverse($drivers);
+
+$stats = array();
+
+foreach ($drivers as $description => $driver) {
+    echo "Starting Driver Test: {$description}" . PHP_EOL;
+
+    $phixel = new Phixel($driver);
+    $phixel->allOff();
+
+    $font = new Font8x5(24, false, array('BANG!'), 0xffffff);
+
+    $frame = new FrameBuffer($phixel);
+    $frame->attachObject($font);
+
+    echo " > Starting Stopwatch" . PHP_EOL;
+    $stats[$description] = array(
+        'start' => microtime(true),
+        'stop'  =>  null
+    );
+    $frame->startLoop();
+    $stats[$description]['stop'] = microtime(true);
+    echo " > Stopwatch Stopped" . PHP_EOL;
+
+    unset($frame);
+    unset($font);
+    unset($phixel);
+    unset($driver);
+}
+
+echo "And the results are in: " . PHP_EOL;
+foreach ($stats as $description => $times) {
+    echo PHP_EOL . "Driver: {$description}" . PHP_EOL;
+    echo ' TIME: ' . sprintf('%06.4f', (float) ($times['stop'] - $times['start'])) . PHP_EOL;
 }
