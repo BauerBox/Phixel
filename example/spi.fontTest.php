@@ -12,10 +12,7 @@ Phixel::enableDebugOutput();
 
 $font = new Font8x5(24, true, array('Rev!Co Rocks!'));
 
-$driver = new LPD6803Driver();
-$driver->setDevice(0)->setPixelCount(192)->setMode(LPD6803Driver::MODE_SPI);
-
-$phixel = new Phixel($driver);
+$phixel = new Phixel(new LPD6803Driver(192, LPD6803Driver::MODE_SPI, 0));
 $phixel->allOff();
 
 $frame = new FrameBuffer($phixel);
