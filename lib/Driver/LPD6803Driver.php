@@ -38,7 +38,7 @@ class LPD6803Driver extends AbstractHybridDriver
         }
 
         $bufferCount = strlen($this->buffer);
-        
+
         Debug::log(
             'Flushing SPI(' . $this->device . ') with buffer size: ' . $bufferCount .
             ' WiringPiSPIDataRW says: ' . wiringPiSPIDataRW($this->device, $this->buffer, $bufferCount)
@@ -60,6 +60,14 @@ class LPD6803Driver extends AbstractHybridDriver
         // Convert compiled color to 15-bit used by LPD6803
         $channels = $pixel->getCompiledColor(true);
         return $this->pixelMask | ($channels['r'] / 8) << 10 | ($channels['g'] / 8) << 5 | ($channels['b'] / 8);
+    }
+
+    public function writeData($data)
+    {
+        $data = $data & 0xFFFF;
+        $this->buffer .= $this->packChar(0xFF & ($data >> 8));
+        $this->buffer .= $this->packChar(0xFF & $data);
+        return $this;
     }
 
     protected function pack16($data)
