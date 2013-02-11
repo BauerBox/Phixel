@@ -18,6 +18,7 @@ class LPD6803Driver extends AbstractHybridDriver
         }
 
         $bufferSize = strlen($this->buffer);
+        Debug::log('BufferSize: ' . $bufferSize);
 
         for ($i = 0; $i < $bufferSize; $i += 2) {
             fwrite($this->socket, substr($this->buffer, $i, 2));
@@ -25,7 +26,6 @@ class LPD6803Driver extends AbstractHybridDriver
 
         fflush($this->socket);
 
-        $this->resetBuffer();
         $this->writeReset();
 
         return $this;
@@ -37,11 +37,10 @@ class LPD6803Driver extends AbstractHybridDriver
             throw new \Exception('There is no data in the buffer to flush');
         }
 
-        Debug::log('Flushing SPI('.$this->device.')');
         $bufferCount = strlen($this->buffer);
+        Debug::log('Flushing SPI('.$this->device.') with buffer size: ' . $bufferCount);
         wiringPiSPIDataRW($this->device, $this->buffer, $bufferCount);
 
-        $this->resetBuffer();
         $this->writeReset();
 
         return $this;
