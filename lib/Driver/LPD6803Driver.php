@@ -38,8 +38,11 @@ class LPD6803Driver extends AbstractHybridDriver
         }
 
         $bufferCount = strlen($this->buffer);
-        Debug::log('Flushing SPI('.$this->device.') with buffer size: ' . $bufferCount);
-        wiringPiSPIDataRW($this->device, $this->buffer, $bufferCount);
+        
+        Debug::log(
+            'Flushing SPI(' . $this->device . ') with buffer size: ' . $bufferCount .
+            ' WiringPiSPIDataRW says: ' . wiringPiSPIDataRW($this->device, $this->buffer, $bufferCount)
+        );
 
         $this->writeReset();
 
