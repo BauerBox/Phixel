@@ -3,6 +3,7 @@
 namespace BauerBox\Phixel\Driver;
 
 use BauerBox\Phixel\Driver\AbstractHybridDriver;
+use BauerBox\Phixel\Pixel\Pixel;
 
 class WS2801Driver extends AbstractHybridDriver
 {
@@ -45,7 +46,7 @@ class WS2801Driver extends AbstractHybridDriver
 
     public function writeReset()
     {
-        usleep(500);
+        usleep(750);
         return $this;
     }
 
@@ -56,5 +57,10 @@ class WS2801Driver extends AbstractHybridDriver
         $this->buffer .= $this->packChar(0xFF & ($data >> 8));
         $this->buffer .= $this->packChar(0xFF & ($data >> 16));
         return $this;
+    }
+
+    public function processPixel(Pixel $pixel)
+    {
+        return $pixel->getCompiledColor();
     }
 }
