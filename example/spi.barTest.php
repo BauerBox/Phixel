@@ -8,6 +8,7 @@ use BauerBox\Phixel\Object\Bar;
 include_once __DIR__ . '/../lib/Phixel.php';
 
 Phixel::installAutloader();
+Phixel::enableDebugOutput();
 
 $phixel = new Phixel(new Driver(25, Driver::MODE_SPI, 0));
 $phixel->allOff();
