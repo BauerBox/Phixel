@@ -69,24 +69,4 @@ class LPD6803Driver extends AbstractHybridDriver
         $this->buffer .= $this->packChar(0xFF & $data);
         return $this;
     }
-
-    protected function pack16($data)
-    {
-        return pack('n', (int) $data);
-    }
-
-    protected function pack32($data)
-    {
-        return pack('N', (int) $data);
-    }
-
-    protected function packChar($data)
-    {
-        return pack('C', (int) $data);
-    }
-
-    protected function packMultiChar($data)
-    {
-        return pack('C*', (int) $data);
-    }
 }

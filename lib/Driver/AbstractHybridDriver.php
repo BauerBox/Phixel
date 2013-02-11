@@ -297,4 +297,25 @@ abstract class AbstractHybridDriver implements DriverInterface
         $this->buffer = '';
         return $this;
     }
+
+    /* Binary Helpers */
+    protected function pack16($data)
+    {
+        return pack('n', (int) $data);
+    }
+
+    protected function pack32($data)
+    {
+        return pack('N', (int) $data);
+    }
+
+    protected function packChar($data)
+    {
+        return pack('C', (int) $data);
+    }
+
+    protected function packMultiChar($data)
+    {
+        return pack('C*', (int) $data);
+    }
 }
