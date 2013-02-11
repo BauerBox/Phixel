@@ -7,14 +7,19 @@ use BauerBox\Phixel\Pixel\PixelStream;
 
 interface DriverInterface
 {
-    public function closeSocket();
-    public function flush();
-    public function getPixelCount();
-    public function processPixel(Pixel $pixel);
-    public function setDevice($device);
-    public function setPixelCount($pixelCount);
     public function openSocket();
+    public function closeSocket();
+
+    public function processPixel(Pixel $pixel);
+
+    public function setDevice($device);
+
+    public function getPixelCount();
+    public function setPixelCount($pixelCount);
+
     public function writeData($data);
-    public function writePixelStream(PixelStream $stream);
+    public function writePixelStream(PixelStream $stream, $flush);
     public function writeReset();
+
+    public function flush();
 }
