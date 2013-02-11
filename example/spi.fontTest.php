@@ -18,8 +18,6 @@ $driver->setDevice(0)->setPixelCount(192)->setMode(LPD6803Driver::MODE_SPI);
 $phixel = new Phixel($driver);
 $phixel->allOff();
 
-exit(0);
-
 $frame = new FrameBuffer($phixel);
 
 $frame->attachObject($font);

@@ -4,6 +4,7 @@ namespace BauerBox\Phixel\Driver;
 
 use BauerBox\Phixel\Driver\AbstractHybridDriver;
 use BauerBox\Phixel\Pixel\Pixel;
+use BauerBox\Phixel\Debug\Debug;
 
 class LPD6803Driver extends AbstractHybridDriver
 {
@@ -36,6 +37,7 @@ class LPD6803Driver extends AbstractHybridDriver
             throw new \Exception('There is no data in the buffer to flush');
         }
 
+        Debug::log('Flushing SPI('.$this->device.')');
         $bufferCount = strlen($this->buffer);
         wiringPiSPIDataRW($this->device, $this->buffer, $bufferCount);
 
