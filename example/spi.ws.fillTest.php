@@ -7,7 +7,6 @@ use BauerBox\Phixel\Color\Wheel;
 include_once __DIR__ . '/../lib/Phixel.php';
 
 Phixel::installAutloader();
-Phixel::enableDebugOutput();
 
 $phixel = new Phixel(new Driver(25, Driver::MODE_SPI, 0));
 $phixel->allOff();
@@ -15,7 +14,7 @@ $phixel->allOff();
 $wheel = new Wheel;
 
 while (true) {
-    $time - microtime(true);
+    $time = microtime(true);
 
     for ($i = 0; $i < 256; ++$i) {
         $phixel->fill($wheel($i));
