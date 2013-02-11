@@ -35,7 +35,7 @@ class WS2801Driver extends AbstractHybridDriver
         }
 
         $bufferCount = strlen($this->buffer);
-        wiringPiSPIDataRW($this->channel, $this->buffer, $bufferCount);
+        wiringPiSPIDataRW($this->device, $this->buffer, $bufferCount);
 
         $this->resetBuffer();
         $this->writeReset();
