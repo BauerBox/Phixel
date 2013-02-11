@@ -11,6 +11,11 @@ class Debug
         static::$enabled = true;
     }
 
+    public static function isEnabled()
+    {
+        return (static::$enabled === true);
+    }
+
     public static function log()
     {
         if (static::$enabled !== true) {

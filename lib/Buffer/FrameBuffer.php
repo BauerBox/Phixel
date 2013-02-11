@@ -58,7 +58,6 @@ class FrameBuffer
         }
 
         $this->buffer[$pixel]['compiled'] = false;
-
         return $this->buffer[$pixel]['pixels'][$this->currentObject];
     }
 
@@ -75,7 +74,6 @@ class FrameBuffer
         }
 
         $this->buffer[$pixel]['compiled'] = false;
-
         unset($this->buffer[$pixel]['pixels'][$this->currentObject]);
     }
 
@@ -156,10 +154,11 @@ class FrameBuffer
         $this->phixel->getDriver()->writePixelStream($this->frame)->flush();
 
         // Calculate FPS
-        $time = (microtime(true) - $this->loopStart);
-        $fps = ++$this->loopIterations / $time;
-
-        Debug::log("Estimated FPS: " . sprintf('%04.2f', $fps));
+        if (Debug::isEnabled()) {
+            $time = (microtime(true) - $this->loopStart);
+            $fps = ++$this->loopIterations / $time;
+            Debug::log("Estimated FPS: " . sprintf('%04.2f', $fps));
+        }
     }
 
     protected function initializeBuffer()
