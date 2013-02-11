@@ -43,7 +43,7 @@ class WS2801Driver extends AbstractHybridDriver
         return $this;
     }
 
-    protected function writeReset()
+    public function writeReset()
     {
         usleep(500);
         return $this;

@@ -45,7 +45,7 @@ class LPD6803Driver extends AbstractHybridDriver
         return $this;
     }
 
-    protected function writeReset()
+    public function writeReset()
     {
         $this->writeData(0x0000)->writeData(0x0000);
         return $this;
