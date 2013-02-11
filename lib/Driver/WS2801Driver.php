@@ -51,8 +51,6 @@ class WS2801Driver extends AbstractHybridDriver
 
     public function writeData($data)
     {
-        Debug::log(sprintf('%06X', $data));
-
         $data = $data & 0xFFFFFF;
 
         $this->buffer .= $this->packChar(0xFF & ($data >> 16))
