@@ -12,13 +12,13 @@ class AsciiDriver implements DriverInterface
 {
     protected $pixelCount;
 
-    private $buffer;
-    private $columnBuffer;
-    private $frame;
-    private $tick;
-    private $columns;
-    private $rows;
-    private $clearOnReset;
+    protected $buffer;
+    protected $columnBuffer;
+    protected $frame;
+    protected $tick;
+    protected $columns;
+    protected $rows;
+    protected $clearOnReset;
 
     public function __construct($tick = 500000)
     {
@@ -100,6 +100,12 @@ class AsciiDriver implements DriverInterface
         return $this;
     }
 
+    public function setClearOnReset($clear = true)
+    {
+        $this->clearOnReset = (boolean) $clear;
+        return $this;
+    }
+
     public function setMatrixSize($columns = 5, $rows = 5)
     {
         $this->columns = $columns;
@@ -138,7 +144,7 @@ class AsciiDriver implements DriverInterface
     {
         if (true === $this->clearOnReset) {
             Debug::log('Clearing the screen');
-            echo "\033[2J";
+            echo $this->cls;
         }
 
         return $this;
