@@ -40,12 +40,6 @@ foreach ($drivers as $description => $driver) {
     $stats[$description]['stop'] = microtime(true);
     echo " > Stopwatch Stopped" . PHP_EOL;
 
-    try {
-        $driver->closeSocket();
-    } catch (\Exception $e) {
-        echo " ! Socket Error ! " . PHP_EOL;
-    }
-
     unset($frame);
     unset($font);
     unset($phixel);
