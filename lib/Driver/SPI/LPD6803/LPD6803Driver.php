@@ -86,7 +86,6 @@ class LPD6803Driver implements DriverInterface
     public function setPixelCount($pixelCount)
     {
         $this->pixelCount = $pixelCount;
-
         return $this;
     }
 
@@ -95,7 +94,6 @@ class LPD6803Driver implements DriverInterface
         $data = $data & 0xFFFF;
         $this->buffer .= $this->packChar(0xFF & ($data >> 8));
         $this->buffer .= $this->packChar(0xFF & $data);
-
         return $this;
     }
 
@@ -116,43 +114,8 @@ class LPD6803Driver implements DriverInterface
 
     public function writeReset()
     {
-        Debug::log('Sending Reset To Device');
         $this->writeData(0x0000)->writeData(0x0000);
         return $this;
-    }
-
-    protected function checkDevice()
-    {
-        Debug::log('Checking device: ' . $this->channel);
-
-        if (false === file_exists($this->channel)) {
-            $this->loadKernelModule();
-        }
-
-        if (false === is_writable($this->channel)) {
-            throw new \Exception('The device ' . $this->channel . ' is not writable by the current user');
-        }
-
-        return $this;
-    }
-
-    protected function loadKernelModule()
-    {
-        Debug::log('Loading kernel module');
-
-        try {
-            shell_exec('gpio load spi > /dev/null 2> /dev/null');
-
-            if (false === file_exists($this->channel)) {
-                throw new \Exception('SPI device kernel module could not be loaded');
-            }
-        } catch (\Exception $e) {
-            throw new \Exception(
-                'An unknown error occurred while attempting to load the SPI kernel module',
-                null,
-                $e
-            );
-        }
     }
 
     protected function packChar($data)
