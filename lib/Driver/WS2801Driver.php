@@ -4,6 +4,7 @@ namespace BauerBox\Phixel\Driver;
 
 use BauerBox\Phixel\Driver\AbstractHybridDriver;
 use BauerBox\Phixel\Pixel\Pixel;
+use BauerBox\Phixel\Debug\Debug;
 
 class WS2801Driver extends AbstractHybridDriver
 {
@@ -23,7 +24,6 @@ class WS2801Driver extends AbstractHybridDriver
 
         fflush($this->socket);
 
-        $this->resetBuffer();
         $this->writeReset();
 
         return $this;
@@ -38,7 +38,12 @@ class WS2801Driver extends AbstractHybridDriver
         $bufferCount = strlen($this->buffer);
         wiringPiSPIDataRW($this->device, $this->buffer, $bufferCount);
 
-        $this->resetBuffer();
+        for ($i = 0; $i < $bufferCount; $i += 3) {
+            Debug::log(sprintf('%3X', substr($this->buffer, $i, 3)));
+        }
+
+        sleep(1);
+
         $this->writeReset();
 
         return $this;
