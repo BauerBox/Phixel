@@ -6,7 +6,7 @@ use BauerBox\Phixel\Driver\AbstractHybridDriver;
 
 class WS2801Driver extends AbstractHybridDriver
 {
-    protected $channelSpeed = self::SPEED_16_MHZ;
+    protected $channelSpeed = self::SPEED_4_MHZ;
 
     protected function flushRaw()
     {
