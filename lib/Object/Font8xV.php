@@ -83,7 +83,7 @@ class Font8xV extends AbstractObject
             '+##+',
             '#  #',
             '#   ',
-            '# +#',
+            '# *+',
             '#  #',
             '#  #',
             '#  #',
