@@ -224,11 +224,11 @@ abstract class AbstractHybridDriver implements DriverInterface
         $device = $this->getDevice($this->device);
         Debug::log('Checking device: ' . $device . ' (Channel ' . $this->device . ')');
 
+        if (false === $this->isKernelModuleLoaded()) {
+            $this->loadKernelModule();
+        }
+        
         if ($this->mode === self::MODE_RAW) {
-            if (false === file_exists($device)) {
-                $this->loadKernelModule();
-            }
-
             if (false === is_writable($device)) {
                 throw new \Exception(
                     'The device ' . $device . ' is not writable by the current user'
