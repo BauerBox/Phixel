@@ -250,8 +250,9 @@ abstract class AbstractHybridDriver implements DriverInterface
         Debug::log('Attempting to load kernel module');
 
         if ($this->isGpioAvailable()) {
+            Debug::log("Attempting to use gpio to load kernel module. Path: {$this->gpioPath}");
             try {
-                shell_exec($this->gpioPath . ' load spi > /dev/null 2> /dev/null');
+                shell_exec('gpio load spi > /dev/null 2> /dev/null');
             } catch (\Exception $e) {
                 throw new \Exception(
                     'Unable to load kernel module using WiringPi gpio',
